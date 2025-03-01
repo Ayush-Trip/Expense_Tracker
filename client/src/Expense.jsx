@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 const ExpenseTracker = () => {
   const [balance, setBalance] = useState(0);
+  const PORT = import.meta.env.VITE_PORT
   const [transactions, setTransactions] = useState([]);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
 
   const fetchExpenses = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/expenses");
+      const response = await axios.get(`http://localhost:${PORT}/expenses`);
       let result = 0;
       response.data.map((data) => {
         result += data.amount;
@@ -37,7 +38,7 @@ const ExpenseTracker = () => {
       ...prevTransactions,
       { description, amount: parsedAmount },
     ]);
-    axios.post("http://localhost:5000/expenses", {
+    axios.post(`http://localhost:${PORT}/expenses`, {
       description: description,
       amount: parsedAmount,
     });
